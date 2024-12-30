@@ -11,7 +11,7 @@ const App: React.FC = () => {
   const [value, setValue] = useState<string>("");
 
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [filteredTodos, setFilteredTodos] = useState<Todo[]>([])
+  const [filteredTodos, setFilteredTodos] = useState<Todo[]>([]);
 
   const handleChange = (e: ChangeEvent) => {
     setValue(e.target.value);
@@ -19,45 +19,36 @@ const App: React.FC = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    // setTodos((prev) => [...prev, value]);
+
     const newTodo = {
       id: Date.now(),
       data: value,
       isDone: false,
     };
     setTodos((prev) => {
-      const newEntry = [...prev, newTodo]
-      setFilteredTodos(newEntry)
-      return newEntry
+      const newEntry = [...prev, newTodo];
+      setFilteredTodos(newEntry);
+      return newEntry;
     });
     setValue("");
   };
 
   const handleDelete = (id: ClickEvent) => {
     setTodos((prev) => {
-      const deletedData = prev.filter((e, index) => (
-        index !== id
-      ))
-      setFilteredTodos(deletedData)
-      return deletedData
+      const deletedData = prev.filter((e, index) => index !== id);
+      setFilteredTodos(deletedData);
+      return deletedData;
     });
   };
 
   const handleCheckTodo = (id: number) => {
-    // setTodos((prev) =>
-    //   const filteredTodos = prev.map((todo) =>
-    //     todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
-    //   )
-    //   setFilteredTodos(filteredTodos)
-    //   return filteredTodos
-    // );
     setTodos((prev) => {
-      const filtered = prev.map((todo) => (
+      const filtered = prev.map((todo) =>
         todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
-      ))
-      setFilteredTodos(filtered)
-      return  filtered
-    })
+      );
+      setFilteredTodos(filtered);
+      return filtered;
+    });
   };
 
   const handleDone = () => {
@@ -65,11 +56,11 @@ const App: React.FC = () => {
   };
 
   const handleAll = () => {
-    setFilteredTodos([...todos])
-  }
+    setFilteredTodos([...todos]);
+  };
 
   useEffect(() => {
-    console.log('log for todos: ', todos, 'log for filtered: ', filteredTodos);
+    console.log("log for todos: ", todos, "log for filtered: ", filteredTodos);
   }, [todos, filteredTodos]);
   return (
     <div className="flex justify-center flex-col items-center gap-4">
@@ -88,17 +79,27 @@ const App: React.FC = () => {
 
       <h3 className="text-2xl font-bold mt-4">Todo list</h3>
       <div className="flex gap-4 mb-4">
-        <button onClick={handleAll} className="bg-[#0077D4] text-white px-24 active:bg-[#005A9C]">
+        <button
+          onClick={handleAll}
+          className="bg-[#0077D4] text-white px-24 active:bg-[#005A9C]"
+        >
           All
         </button>
-        <button onClick={handleDone} className="bg-[#0077D4] text-white px-24 active:bg-[#005A9C]">
+        <button
+          onClick={handleDone}
+          className="bg-[#0077D4] text-white px-24 active:bg-[#005A9C]"
+        >
           Done
         </button>
         <button className="bg-[#0077D4] text-white px-24 active:bg-[#005A9C]">
           Todo
         </button>
       </div>
-      <List todos={filteredTodos} onDelete={handleDelete} onChecked={handleCheckTodo} />
+      <List
+        todos={filteredTodos}
+        onDelete={handleDelete}
+        onChecked={handleCheckTodo}
+      />
     </div>
   );
 };
